@@ -40,7 +40,6 @@ export async function updatePost(id: number, formData: FormData) {
   });
 
   revalidatePath("/posts");
-  revalidatePath(`/posts/${id}`);
 }
 
 export async function deletePost(id: number) {
