@@ -2,6 +2,7 @@ import prisma from "@/lib/db";
 
 export default async function Posts() {
   const posts = await prisma.note.findMany();
+  console.log(posts);
   return (
     <div>
       <h1>Posts</h1>
