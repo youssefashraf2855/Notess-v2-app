@@ -21,6 +21,7 @@ export default async function Posts() {
         <input type="text" name="title" />
         <h2>Content</h2>
         <textarea name="content"  cols={4} ></textarea>
+        <button type="submit"> Submit</button>
       </form>
     </div>
   );
