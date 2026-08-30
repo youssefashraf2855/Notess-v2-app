@@ -1,3 +1,4 @@
+"use client"
 import { createPost } from "@/actions/actions";
 import prisma from "@/lib/db";
 import { useActionState } from "react";
