@@ -1,13 +1,13 @@
 import { createPost } from "@/actions/actions";
 import prisma from "@/lib/db";
+import { useActionState } from "react";
 
 export default async function Posts() {
   const posts = await prisma.note.findMany();
-
+  const [state,formAction] = useActionState(createPost,null);
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-5xl">
-
         {/* Header */}
         <div className="mb-10">
           <h1 className="text-4xl font-bold text-gray-900">
@@ -25,8 +25,7 @@ export default async function Posts() {
             Create a new note
           </h2>
 
-          <form action={createPost} className="space-y-5">
-
+          <form action={formAction} className="space-y-5">
             {/* Title */}
             <div>
               <label
@@ -70,6 +69,11 @@ export default async function Posts() {
             >
               Create Note
             </button>
+            {state?.error &&(
+              <div className="p-3 text-sm text-red-700 bg-red-100 rounded-md">
+          {state.error}
+        </div>
+            )}
           </form>
         </section>
 
