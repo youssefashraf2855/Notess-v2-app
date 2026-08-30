@@ -18,6 +18,7 @@ export async function createPost(prevState: any,formData: FormData) {
     },
   });
   revalidatePath("/posts");
+  return { error: null, success: true };
 }
 
 export async function updatePost(id: number, formData: FormData) {

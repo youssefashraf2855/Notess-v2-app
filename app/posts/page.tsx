@@ -14,7 +14,6 @@ export default async function Posts() {
           <h1 className="text-4xl font-bold text-gray-900">
             My Notes
           </h1>
-
           <p className="mt-2 text-gray-500">
             Create and manage your notes easily.
           </p>
