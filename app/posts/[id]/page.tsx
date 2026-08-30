@@ -1,7 +1,7 @@
 import prisma from "@/lib/db";
 import { updatePost, deletePost } from "@/actions/actions";
 import { notFound } from "next/navigation";
-
+import UpdatePostForm from "@/components/updatePostForm";
 export default async function PostPage({
   params,
 }: {
@@ -48,7 +48,7 @@ export default async function PostPage({
 
           {/* Update */}
           
-
+        <UpdatePostForm post={post}/>
           {/* Delete */}
           <div className="mt-8 border-t border-gray-200 pt-6">
 
