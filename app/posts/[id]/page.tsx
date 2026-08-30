@@ -47,49 +47,7 @@ export default async function PostPage({
           </h1>
 
           {/* Update */}
-          <form action={updatePostWithId} className="space-y-5">
-
-            <div>
-              <label
-                htmlFor="title"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Title
-              </label>
-
-              <input
-                id="title"
-                name="title"
-                type="text"
-                defaultValue={post.title}
-                className="w-full text-black rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="content"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Content
-              </label>
-
-              <textarea
-                id="content"
-                name="content"
-                rows={7}
-                defaultValue={post.content}
-                className="w-full text-black resize-none rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700"
-            >
-              Update Note
-            </button>
-          </form>
+          
 
           {/* Delete */}
           <div className="mt-8 border-t border-gray-200 pt-6">

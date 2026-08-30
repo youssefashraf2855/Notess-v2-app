@@ -21,25 +21,25 @@ export async function createPost(prevState: any,formData: FormData) {
   return { error: null, success: true };
 }
 
-export async function updatePost(id: number, formData: FormData) {
+export async function updatePost(
+  id: number,
+  prevState: any, // 👈 1. Add prevState here
+  formData: FormData
+) {
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
 
   if (!title?.trim() || !content?.trim()) {
-    throw new Error("Title and content are required");
+    return { error: "Title and content are required." };
   }
 
   await prisma.note.update({
-    where: {
-      id: id,
-    },
-    data: {
-      title: title.trim(),
-      content: content.trim(),
-    },
+    where: { id },
+    data: { title, content },
   });
+
   revalidatePath("/posts");
-    redirect("/posts");
+  redirect("/posts");
 }
 
 export async function deletePost(id: number) {

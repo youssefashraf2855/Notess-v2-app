@@ -14,7 +14,6 @@ export default async function Posts() {
             Create and manage your notes easily.
           </p>
         </div>
-
         {/* Create Post */}
         <section className="mb-12 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
           <h2 className="mb-6 text-2xl font-semibold text-gray-900">
