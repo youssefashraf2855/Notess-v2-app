@@ -7,7 +7,7 @@ export default function Header() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    const res = await fetch("/api/logout", {
+    const res = await fetch("/api/users/logout", {
       method: "POST",
     });
 
