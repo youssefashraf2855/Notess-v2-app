@@ -24,7 +24,8 @@ export default function SignInPage() {
       setMessage(data.message); // Show error from API
     } else {
       setMessage("Signed in successfully!");
-      router.push("/posts"); // Redirect after success
+      router.push("/posts"); 
+      window.location.href = "/";// Redirect after success
     }
   };
 
