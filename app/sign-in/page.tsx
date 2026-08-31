@@ -25,7 +25,7 @@ export default function SignInPage() {
     } else {
       setMessage("Signed in successfully!");
       router.push("/posts"); 
-      window.location.href = "/";// Redirect after success
+      window.location.href = "/posts";// Redirect after success
     }
   };
 
