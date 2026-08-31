@@ -1,4 +1,5 @@
 import prisma from '@/lib/db';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 
@@ -34,7 +35,21 @@ export async function POST(request: Request) {
         { status: 401 }
       );
     }
+    const sessionData = JSON.stringify({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role, // <--- Added role here
+    });
 
+    const cookieStore = await cookies();
+    cookieStore.set('user_session', sessionData, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    });
     // Success response
     return NextResponse.json(
       {
