@@ -14,7 +14,7 @@ export default function SignInPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -105,7 +105,7 @@ export default function SignInPage() {
           <p className="mt-6 text-center text-sm text-gray-600">
             Don't have an account?{" "}
             <Link
-              href="/signup"
+              href="/sign-up"
               className="font-medium text-black hover:underline"
             >
               Create an account
