@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Router, useRouter } from "next/router";
 
 export default function SignUpPage() {
+    const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +33,8 @@ export default function SignUpPage() {
     if (!res.ok) {
       setMessage(data.message); // Show error from API
     } else {
-      setMessage("Account created!"); // Show success
+      setMessage("Account created!");
+      router.push("/sign-in") // Show success
     }
   };
 
