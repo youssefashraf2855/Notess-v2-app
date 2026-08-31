@@ -1,7 +1,10 @@
 import prisma from "@/lib/db";
 import CreatePostForm from "@/components/createPostForm";
+export const dynamic = 'force-dynamic';
 export default async function Posts() {
+  
   const posts = await prisma.note.findMany();
+  
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-5xl">

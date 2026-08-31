@@ -14,6 +14,7 @@ export default function Header() {
     if (res.ok) {
       router.push("/sign-in");
       router.refresh(); // Refresh route state so middleware updates immediately
+      window.location.href = "/sign-in";
     }
   };
 
