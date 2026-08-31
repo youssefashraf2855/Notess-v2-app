@@ -7,13 +7,13 @@ export function middleware(request: NextRequest) {
 
   // 1. Protect /posts: Redirect unauthenticated users to /signin
   if (path.startsWith('/posts') && !sessionCookie) {
-    return NextResponse.redirect(new URL('/signin', request.url));
+    return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
   // 2. Protect /admin: Ensure user exists and has ADMIN role
   if (path.startsWith('/admin')) {
     if (!sessionCookie) {
-      return NextResponse.redirect(new URL('/signin', request.url));
+      return NextResponse.redirect(new URL('/sign-in', request.url));
     }
 
     try {
@@ -22,7 +22,7 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url));
       }
     } catch {
-      return NextResponse.redirect(new URL('/signin', request.url));
+      return NextResponse.redirect(new URL('/sign-in', request.url));
     }
   }
 
