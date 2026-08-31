@@ -20,15 +20,19 @@ export const metadata: Metadata = {
 import "./globals.css";
 import Header from "@/components/Header"; // Adjust import path if needed
 
-export default function RootLayout({
+import { getSessionUser } from "@/lib/session";
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getSessionUser();
+
   return (
     <html lang="en">
       <body className="bg-gray-50 antialiased">
-        <Header />
+        <Header isLoggedIn={!!user} />
         {children}
       </body>
     </html>
