@@ -19,9 +19,7 @@ export default function SignInPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-
     const data = await res.json();
-
     if (!res.ok) {
       setMessage(data.message); // Show error from API
     } else {
