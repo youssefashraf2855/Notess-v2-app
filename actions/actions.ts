@@ -23,7 +23,7 @@ export async function createPost(prevState: any,formData: FormData) {
 
 export async function updatePost(
   id: number,
-  prevState: any, // 👈 1. Add prevState here
+  prevState: any,
   formData: FormData
 ) {
   const title = formData.get("title") as string;
