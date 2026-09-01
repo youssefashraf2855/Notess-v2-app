@@ -1,4 +1,5 @@
 import prisma from "@/lib/db";
+import FavoriteButton from "@/components/FavouriteButton";
 import { updatePost, deletePost } from "@/actions/actions";
 import { notFound } from "next/navigation";
 import UpdatePostForm from "@/components/updatePostForm";

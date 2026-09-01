@@ -43,6 +43,7 @@ export type NoteMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: number | null
+  isFavorite: boolean | null
 }
 
 export type NoteMaxAggregateOutputType = {
@@ -52,6 +53,7 @@ export type NoteMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: number | null
+  isFavorite: boolean | null
 }
 
 export type NoteCountAggregateOutputType = {
@@ -61,6 +63,7 @@ export type NoteCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   userId: number
+  isFavorite: number
   _all: number
 }
 
@@ -82,6 +85,7 @@ export type NoteMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  isFavorite?: true
 }
 
 export type NoteMaxAggregateInputType = {
@@ -91,6 +95,7 @@ export type NoteMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  isFavorite?: true
 }
 
 export type NoteCountAggregateInputType = {
@@ -100,6 +105,7 @@ export type NoteCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  isFavorite?: true
   _all?: true
 }
 
@@ -196,6 +202,7 @@ export type NoteGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   userId: number
+  isFavorite: boolean
   _count: NoteCountAggregateOutputType | null
   _avg: NoteAvgAggregateOutputType | null
   _sum: NoteSumAggregateOutputType | null
@@ -228,6 +235,7 @@ export type NoteWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Note"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Note"> | Date | string
   userId?: Prisma.IntFilter<"Note"> | number
+  isFavorite?: Prisma.BoolFilter<"Note"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -238,6 +246,7 @@ export type NoteOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -251,6 +260,7 @@ export type NoteWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Note"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Note"> | Date | string
   userId?: Prisma.IntFilter<"Note"> | number
+  isFavorite?: Prisma.BoolFilter<"Note"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -261,6 +271,7 @@ export type NoteOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   _count?: Prisma.NoteCountOrderByAggregateInput
   _avg?: Prisma.NoteAvgOrderByAggregateInput
   _max?: Prisma.NoteMaxOrderByAggregateInput
@@ -278,6 +289,7 @@ export type NoteScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Note"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Note"> | Date | string
   userId?: Prisma.IntWithAggregatesFilter<"Note"> | number
+  isFavorite?: Prisma.BoolWithAggregatesFilter<"Note"> | boolean
 }
 
 export type NoteCreateInput = {
@@ -285,6 +297,7 @@ export type NoteCreateInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
   user: Prisma.UserCreateNestedOneWithoutNotesInput
 }
 
@@ -295,6 +308,7 @@ export type NoteUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: number
+  isFavorite?: boolean
 }
 
 export type NoteUpdateInput = {
@@ -302,6 +316,7 @@ export type NoteUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutNotesNestedInput
 }
 
@@ -312,6 +327,7 @@ export type NoteUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type NoteCreateManyInput = {
@@ -321,6 +337,7 @@ export type NoteCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: number
+  isFavorite?: boolean
 }
 
 export type NoteUpdateManyMutationInput = {
@@ -328,6 +345,7 @@ export type NoteUpdateManyMutationInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type NoteUncheckedUpdateManyInput = {
@@ -337,6 +355,7 @@ export type NoteUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type NoteCountOrderByAggregateInput = {
@@ -346,6 +365,7 @@ export type NoteCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
 }
 
 export type NoteAvgOrderByAggregateInput = {
@@ -360,6 +380,7 @@ export type NoteMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
 }
 
 export type NoteMinOrderByAggregateInput = {
@@ -369,6 +390,7 @@ export type NoteMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
 }
 
 export type NoteSumOrderByAggregateInput = {
@@ -392,6 +414,10 @@ export type StringFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -449,6 +475,7 @@ export type NoteCreateWithoutUserInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
 }
 
 export type NoteUncheckedCreateWithoutUserInput = {
@@ -457,6 +484,7 @@ export type NoteUncheckedCreateWithoutUserInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
 }
 
 export type NoteCreateOrConnectWithoutUserInput = {
@@ -495,6 +523,7 @@ export type NoteScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Note"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Note"> | Date | string
   userId?: Prisma.IntFilter<"Note"> | number
+  isFavorite?: Prisma.BoolFilter<"Note"> | boolean
 }
 
 export type NoteCreateManyUserInput = {
@@ -503,6 +532,7 @@ export type NoteCreateManyUserInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  isFavorite?: boolean
 }
 
 export type NoteUpdateWithoutUserInput = {
@@ -510,6 +540,7 @@ export type NoteUpdateWithoutUserInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type NoteUncheckedUpdateWithoutUserInput = {
@@ -518,6 +549,7 @@ export type NoteUncheckedUpdateWithoutUserInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type NoteUncheckedUpdateManyWithoutUserInput = {
@@ -526,6 +558,7 @@ export type NoteUncheckedUpdateManyWithoutUserInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -537,6 +570,7 @@ export type NoteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  isFavorite?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["note"]>
 
@@ -547,6 +581,7 @@ export type NoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  isFavorite?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["note"]>
 
@@ -557,6 +592,7 @@ export type NoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  isFavorite?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["note"]>
 
@@ -567,9 +603,10 @@ export type NoteSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  isFavorite?: boolean
 }
 
-export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["note"]>
+export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "createdAt" | "updatedAt" | "userId" | "isFavorite", ExtArgs["result"]["note"]>
 export type NoteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -592,6 +629,7 @@ export type $NotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     userId: number
+    isFavorite: boolean
   }, ExtArgs["result"]["note"]>
   composites: {}
 }
@@ -1022,6 +1060,7 @@ export interface NoteFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Note", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Note", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Note", 'Int'>
+  readonly isFavorite: Prisma.FieldRef<"Note", 'Boolean'>
 }
     
 

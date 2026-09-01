@@ -19,8 +19,10 @@ model Note {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
    // The user who created this note
-  userId    Int
+  userId     Int
+  isFavorite Boolean  @default(false)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Optional: useful for querying a user's notes efficiently
   @@index([userId])
 }

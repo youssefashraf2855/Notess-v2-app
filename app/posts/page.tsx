@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import CreatePostForm from "@/components/createPostForm";
+import FavoriteButton from "@/components/FavouriteButton"; 
 import { getSessionUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -9,6 +10,7 @@ import {
   ArrowRight,
   Search,
   X,
+  Star,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -16,6 +18,7 @@ export const dynamic = "force-dynamic";
 interface PostsPageProps {
   searchParams: Promise<{
     search?: string;
+    favorite?: string;
   }>;
 }
 
@@ -34,16 +37,25 @@ export default async function Posts({
     redirect("/sign-in");
   }
 
-  // Get search value from URL
+  // Get URL parameters
   const params = await searchParams;
+
   const search = params.search?.trim() || "";
+  const favoriteOnly = params.favorite === "true";
 
   // Get only this user's notes
   const posts = await prisma.note.findMany({
     where: {
       userId,
 
-      // Only add search filtering when there is a search term
+      // Show only favorites when ?favorite=true
+      ...(favoriteOnly
+        ? {
+            isFavorite: true,
+          }
+        : {}),
+
+      // Search title and content
       ...(search
         ? {
             OR: [
@@ -79,7 +91,6 @@ export default async function Posts({
           <div>
             <div className="mb-3 flex items-center gap-2 text-sm font-medium text-violet-600">
               <FileText className="h-4 w-4" />
-
               Your workspace
             </div>
 
@@ -100,10 +111,18 @@ export default async function Posts({
 
         {/* ================= SEARCH ================= */}
 
-        <section className="mb-10">
+        <section className="mb-6">
           <form method="GET" action="/posts">
-            <div className="relative">
+            {/* Preserve favorite filter while searching */}
+            {favoriteOnly && (
+              <input
+                type="hidden"
+                name="favorite"
+                value="true"
+              />
+            )}
 
+            <div className="relative">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
 
               <input
@@ -116,7 +135,11 @@ export default async function Posts({
 
               {search && (
                 <Link
-                  href="/posts"
+                  href={
+                    favoriteOnly
+                      ? "/posts?favorite=true"
+                      : "/posts"
+                  }
                   className="absolute right-4 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
                   aria-label="Clear search"
                 >
@@ -136,9 +159,45 @@ export default async function Posts({
           )}
         </section>
 
+        {/* ================= FILTERS ================= */}
+
+        <div className="mb-10 flex items-center gap-2">
+          <Link
+            href={
+              search
+                ? `/posts?search=${encodeURIComponent(search)}`
+                : "/posts"
+            }
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+              !favoriteOnly
+                ? "bg-violet-600 text-white shadow-sm"
+                : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50"
+            }`}
+          >
+            <FileText className="h-4 w-4" />
+            All Notes
+          </Link>
+
+          <Link
+            href={
+              search
+                ? `/posts?search=${encodeURIComponent(search)}&favorite=true`
+                : "/posts?favorite=true"
+            }
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+              favoriteOnly
+                ? "bg-amber-500 text-white shadow-sm"
+                : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50"
+            }`}
+          >
+            <Star className="h-4 w-4" />
+            Favorites
+          </Link>
+        </div>
+
         {/* ================= CREATE NOTE ================= */}
 
-        {!search && (
+        {!search && !favoriteOnly && (
           <section className="mb-12 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
             <div className="border-b border-slate-100 bg-gradient-to-r from-violet-50 to-indigo-50 px-6 py-5 sm:px-8">
               <div className="flex items-center gap-3">
@@ -172,11 +231,19 @@ export default async function Posts({
 
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-slate-900">
-              {search ? "Search results" : "Your Notes"}
+              {favoriteOnly
+                ? "Favorite Notes"
+                : search
+                ? "Search results"
+                : "Your Notes"}
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              {search
+              {favoriteOnly
+                ? search
+                  ? `Favorite notes matching "${search}"`
+                  : "Your most important notes in one place."
+                : search
                 ? `Notes matching "${search}"`
                 : "Everything you've written, all in one place."}
             </p>
@@ -188,7 +255,9 @@ export default async function Posts({
             <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
 
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-100">
-                {search ? (
+                {favoriteOnly ? (
+                  <Star className="h-7 w-7 text-violet-600" />
+                ) : search ? (
                   <Search className="h-7 w-7 text-violet-600" />
                 ) : (
                   <FileText className="h-7 w-7 text-violet-600" />
@@ -196,18 +265,24 @@ export default async function Posts({
               </div>
 
               <h3 className="mt-6 text-xl font-bold text-slate-900">
-                {search
+                {favoriteOnly
+                  ? "No favorite notes"
+                  : search
                   ? "No notes found"
                   : "No notes yet"}
               </h3>
 
               <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
-                {search
+                {favoriteOnly
+                  ? search
+                    ? `No favorite notes match "${search}".`
+                    : "You haven't added any notes to your favorites yet."
+                  : search
                   ? `We couldn't find any notes matching "${search}". Try another search term.`
                   : "Your workspace is waiting for your first idea. Create a note above and start building your personal collection."}
               </p>
 
-              {search && (
+              {(search || favoriteOnly) && (
                 <Link
                   href="/posts"
                   className="mt-6 inline-flex items-center gap-2 rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700"
@@ -231,12 +306,22 @@ export default async function Posts({
                   className="group relative flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-violet-200 hover:shadow-xl hover:shadow-violet-100/50"
                 >
 
-                  {/* Top */}
+                  {/* ================= TOP ================= */}
 
                   <div className="mb-5 flex items-center justify-between">
 
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-100">
-                      <FileText className="h-4 w-4 text-violet-600" />
+                    <div className="flex items-center gap-2">
+
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-100">
+                        <FileText className="h-4 w-4 text-violet-600" />
+                      </div>
+
+                      {/* Favorite button */}
+                      <FavoriteButton
+                        noteId={post.id}
+                        isFavorite={post.isFavorite}
+                      />
+
                     </div>
 
                     <span className="text-xs text-slate-400">
@@ -245,7 +330,7 @@ export default async function Posts({
 
                   </div>
 
-                  {/* Content */}
+                  {/* ================= CONTENT ================= */}
 
                   <Link
                     href={`/posts/${post.id}`}
@@ -260,7 +345,7 @@ export default async function Posts({
                     </p>
                   </Link>
 
-                  {/* Footer */}
+                  {/* ================= FOOTER ================= */}
 
                   <Link
                     href={`/posts/${post.id}`}

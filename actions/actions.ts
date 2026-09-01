@@ -147,3 +147,50 @@ export async function deletePost(id: number) {
 
   redirect("/posts");
 }
+
+export async function toggleFavorite(id: number) {
+  const user = await getSessionUser();
+
+  if (!user) {
+    return {
+      error: "You must be logged in.",
+    };
+  }
+
+  const userId = Number(user.id);
+
+  if (!Number.isInteger(userId)) {
+    return {
+      error: "Invalid user session.",
+    };
+  }
+
+  // Find the note and make sure it belongs to this user
+  const note = await prisma.note.findFirst({
+    where: {
+      id,
+      userId,
+    },
+  });
+
+  if (!note) {
+    return {
+      error: "Note not found.",
+    };
+  }
+
+  await prisma.note.update({
+    where: {
+      id,
+    },
+    data: {
+      isFavorite: !note.isFavorite,
+    },
+  });
+
+  revalidatePath("/posts");
+
+  return {
+    success: true,
+  };
+}
