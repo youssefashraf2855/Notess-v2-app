@@ -6,7 +6,7 @@ export default async function Posts() {
   const posts = await prisma.note.findMany();
   
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
+    <main className="min-h-screen bg-gray-50 px-4 py-10 mt-20">
       <div className="mx-auto max-w-5xl">
         {/* Header */}
         <div className="mb-10">

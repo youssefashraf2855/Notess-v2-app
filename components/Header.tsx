@@ -37,7 +37,7 @@ export default function Header({
   };
 
   return (
-    <header className="absolute bg-blue-700 left-0 right-0 top-0 z-50">
+    <header className="absolute bg-blue-700 left-0 right-0 top-0 z-50 mb-80">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* ================= LOGO ================= */}

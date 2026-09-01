@@ -7,6 +7,11 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role{
+  User
+  Admin
+}
+
 model Note {
   id        Int      @id @default(autoincrement())
   title     String
@@ -15,10 +20,7 @@ model Note {
   updatedAt DateTime @default(now())
 }
 
-enum Role{
-  User
-  Admin
-}
+
 model User{
   id         Int    @id @default(autoincrement())
   name      String
