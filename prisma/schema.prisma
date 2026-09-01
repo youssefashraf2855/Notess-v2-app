@@ -18,14 +18,21 @@ model Note {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+   // The user who created this note
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Optional: useful for querying a user's notes efficiently
+  @@index([userId])
 }
 
 
-model User{
-  id         Int    @id @default(autoincrement())
+model User {
+  id        Int      @id @default(autoincrement())
   name      String
-  email     String @unique
+  email     String   @unique
   password  String
-  role      Role   @default(User) 
+  role      Role     @default(User)
   createdAt DateTime @default(now())
+  // A user can have many notes
+  notes     Note[]
 }

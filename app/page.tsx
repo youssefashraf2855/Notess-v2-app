@@ -139,7 +139,7 @@ export default function HomePage() {
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href="/register"
+                  href="/sign-up"
                   className="group inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3.5 font-semibold text-white shadow-xl shadow-violet-950/30 transition hover:-translate-y-0.5 hover:bg-violet-500"
                 >
                   Create Account
@@ -147,7 +147,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href="/login"
+                  href="/sign-in"
                   className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-6 py-3.5 font-semibold text-white backdrop-blur transition hover:bg-white/10"
                 >
                   Sign in
