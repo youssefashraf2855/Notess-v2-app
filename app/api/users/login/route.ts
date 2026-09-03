@@ -35,6 +35,16 @@ export async function POST(request: Request) {
         { status: 401 }
       );
     }
+    if (!user.emailVerified) {
+      return NextResponse.json(
+        {
+          message: "Please verify your email first.",
+          emailVerified: false,
+          email: user.email,
+        },
+        { status: 403 }
+      );
+    }
     const sessionData = JSON.stringify({
       id: user.id,
       name: user.name,

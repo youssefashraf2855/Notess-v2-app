@@ -20,6 +20,12 @@ export default function SignInPage() {
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
+    if (data.emailVerified === false) {
+  router.push(
+    `/verify-email?email=${encodeURIComponent(data.email)}`
+  );
+  return;
+}
     if (!res.ok) {
       setMessage(data.message); // Show error from API
     } else {
