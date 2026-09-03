@@ -34,7 +34,7 @@ export default function SignUpPage() {
       setMessage(data.message); // Show error from API
     } else {
       setMessage("Account created!");
-      router.push("/sign-in") // Show success
+      router.push(`verify-email?email=${encodeURIComponent(email)}`); // Show success
     }
   };
 

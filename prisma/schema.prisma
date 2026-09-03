@@ -34,7 +34,12 @@ model User {
   email     String   @unique
   password  String
   role      Role     @default(User)
+  emailVerified            Boolean   @default(false)
+  verificationToken        String?   @unique
+  verificationTokenExpires DateTime?
+
   createdAt DateTime @default(now())
   // A user can have many notes
   notes     Note[]
 }
+

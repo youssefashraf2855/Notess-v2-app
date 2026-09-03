@@ -1,5 +1,7 @@
 import prisma from "@/lib/db";
+import { sendVerificationEmail } from "@/lib/email";
 import { NextResponse } from "next/server";
+import crypto from "node:crypto";
 //1- not put anything  2- put not correct email(@ not on it , .com , the name should be have of course letters not only numbers) 
 // 3- pass (verysmall ) pass : at least 8char have letters numbers minimum 
 export async function GET() {
@@ -59,18 +61,36 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
+    const verificationCode = crypto
+  .randomInt(10000, 100000)
+  .toString();
+  const verificationTokenExpires = new Date(
+      Date.now() + 24 * 60 * 60 * 1000
+    );
     // Save user directly without hashing
     const newUser = await prisma.user.create({
       data: {
         name: name.trim(),
         email: email.toLowerCase().trim(),
         password: password,
+        emailVerified: false,
+        verificationCode,
+        verificationTokenExpires,
       },
-      select: { id: true, name: true, email: true },
+      select: { id: true, name: true, email: true, emailVerified: true, },
     });
-
-    return NextResponse.json(newUser, { status: 201 });
+    await sendVerificationEmail(
+  newUser.email,
+  newUser.name,
+  verificationCode
+);
+    return NextResponse.json(
+  {
+    message: "Account created. Please check your email for the verification code.",
+    user: newUser,
+  },
+  { status: 201 }
+);
   } catch (error: any) {
     if (error.code === 'P2002') {
       return NextResponse.json(

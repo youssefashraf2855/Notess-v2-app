@@ -47,14 +47,12 @@ export default async function Posts({
   const posts = await prisma.note.findMany({
     where: {
       userId,
-
       // Show only favorites when ?favorite=true
       ...(favoriteOnly
         ? {
             isFavorite: true,
           }
         : {}),
-
       // Search title and content
       ...(search
         ? {
