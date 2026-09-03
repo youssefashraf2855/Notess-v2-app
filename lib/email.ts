@@ -8,7 +8,7 @@ export async function sendVerificationEmail(
   code: string
 ) {
   const { data, error } = await resend.emails.send({
-    from: "Notes <onboarding@notes.youssef.com>",
+    from: "Notes <onboarding@resend.dev>",
     to: [email],
     subject: "Verify your Notes account",
     html: `
