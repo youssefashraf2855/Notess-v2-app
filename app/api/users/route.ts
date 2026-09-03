@@ -61,7 +61,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    const verificationCode = crypto
+    const verificationToken = crypto
   .randomInt(10000, 100000)
   .toString();
   const verificationTokenExpires = new Date(
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         email: email.toLowerCase().trim(),
         password: password,
         emailVerified: false,
-        verificationCode,
+        verificationToken,
         verificationTokenExpires,
       },
       select: { id: true, name: true, email: true, emailVerified: true, },
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
     await sendVerificationEmail(
   newUser.email,
   newUser.name,
-  verificationCode
+  verificationToken
 );
     return NextResponse.json(
   {
