@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function VerifyEmailPage() {
@@ -46,12 +46,30 @@ export default function VerifyEmailPage() {
 
       setTimeout(() => {
         router.push("/posts");
+        window.location.href = "/posts";
       }, 1000);
     } catch {
       setMessage("Something went wrong.");
     } finally {
       setLoading(false);
     }
+    useEffect(() => {
+  async function sendNewCode() {
+    if (!email) return;
+
+    await fetch("/api/users/send-verification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+  }
+
+  sendNewCode();
+}, [email]);
   }
 
   return (

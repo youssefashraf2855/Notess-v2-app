@@ -1,11 +1,11 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
-
+import crypto from "node:crypto";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { email, code } = body;
-
+    
     // 1. Validate input
     if (!email || !code) {
       return NextResponse.json(
@@ -22,6 +22,7 @@ export async function POST(request: Request) {
         email: normalizedEmail,
       },
     });
+    
     console.log("User code:" + user?.verificationToken)
     console.log("User code added:" + code)
     if (!user) {

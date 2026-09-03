@@ -61,12 +61,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    const verificationToken = crypto
-  .randomInt(10000, 100000)
-  .toString();
-  const verificationTokenExpires = new Date(
-      Date.now() + 24 * 60 * 60 * 1000
-    );
+    
     // Save user directly without hashing
     const newUser = await prisma.user.create({
       data: {
@@ -74,16 +69,10 @@ export async function POST(request: Request) {
         email: email.toLowerCase().trim(),
         password: password,
         emailVerified: false,
-        verificationToken,
-        verificationTokenExpires,
       },
       select: { id: true, name: true, email: true, emailVerified: true, },
     });
-    await sendVerificationEmail(
-  newUser.email,
-  newUser.name,
-  verificationToken
-);
+    
     return NextResponse.json(
   {
     message: "Account created. Please check your email for the verification code.",
