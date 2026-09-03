@@ -22,7 +22,8 @@ export async function POST(request: Request) {
         email: normalizedEmail,
       },
     });
-
+    console.log("User code:" + user?.verificationToken)
+    console.log("User code added:" + code)
     if (!user) {
       return NextResponse.json(
         { message: "User not found" },

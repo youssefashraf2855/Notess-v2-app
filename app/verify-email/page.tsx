@@ -35,7 +35,6 @@ export default function VerifyEmailPage() {
           code: code,
         }),
       });
-
       const data = await response.json();
 
       if (!response.ok) {
