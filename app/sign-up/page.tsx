@@ -14,7 +14,6 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     // Simple password check
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
@@ -34,7 +33,7 @@ export default function SignUpPage() {
       setMessage(data.message); // Show error from API
     } else {
       setMessage("Account created!");
-      router.push(`verify-email?email=${encodeURIComponent(email)}`); // Show success
+      router.push(`/verify-email?email=${encodeURIComponent(email)}`); // Show success
     }
   };
 
