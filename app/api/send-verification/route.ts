@@ -38,12 +38,12 @@ export async function POST(request: Request) {
     }
 
     // Create a new 5-digit code
-    const verificationCode = crypto
+    const verificationToken = crypto
       .randomInt(10000, 100000)
       .toString();
 
     // Code expires in 10 minutes
-    const verificationCodeExpires = new Date(
+    const verificationTokenExpires = new Date(
       Date.now() + 10 * 60 * 1000
     );
 
@@ -53,8 +53,8 @@ export async function POST(request: Request) {
         id: user.id,
       },
       data: {
-        verificationCode,
-        verificationCodeExpires,
+        verificationToken,
+        verificationTokenExpires,
       },
     });
 
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     await sendVerificationEmail(
       user.email,
       user.name,
-      verificationCode
+      verificationToken
     );
 
     return NextResponse.json(
