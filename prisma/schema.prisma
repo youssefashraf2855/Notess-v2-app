@@ -37,7 +37,8 @@ model User {
   emailVerified            Boolean   @default(false)
   verificationToken        String?   @unique
   verificationTokenExpires DateTime?
-
+  resetPasswordToken       String?
+  resetPasswordTokenExpires DateTime?
   createdAt DateTime @default(now())
   // A user can have many notes
   notes     Note[]

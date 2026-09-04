@@ -118,6 +118,15 @@ export default function SignInPage() {
               Create an account
             </Link>
           </p>
+          <p className="mt-6 text-center text-sm text-gray-600">
+            Miss your password{" "}
+            <Link
+              href="/sign-up"
+              className="font-medium text-black hover:underline"
+            >
+              Reset password
+            </Link>
+          </p>
         </div>
       </div>
     </main>
