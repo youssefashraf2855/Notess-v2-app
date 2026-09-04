@@ -110,23 +110,24 @@ export default function SignInPage() {
 
           {/* Sign up */}
           <p className="mt-6 text-center text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link
-              href="/sign-up"
-              className="font-medium text-black hover:underline"
-            >
-              Create an account
-            </Link>
-          </p>
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Miss your password{" "}
-            <Link
-              href="/reset-password"
-              className="font-medium text-black hover:underline"
-            >
-              Reset password
-            </Link>
-          </p>
+  Don't have an account?{" "}
+  <Link
+    href="/sign-up"
+    className="font-medium text-black hover:underline"
+  >
+    Create an account
+  </Link>
+</p>
+
+<p className="mt-3 text-center text-sm text-gray-600">
+  Forgot your password?{" "}
+  <Link
+    href="/reset-password"
+    className="font-medium text-black hover:underline"
+  >
+    Reset password
+  </Link>
+</p>
         </div>
       </div>
     </main>
