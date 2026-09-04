@@ -1,34 +1,30 @@
-import crypto from "node:crypto";
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
-import { sendVerificationEmail } from "@/lib/email";
-
+import crypto from "node:crypto";
 export async function POST(request: Request) {
   try {
-    console.log("=== SEND VERIFICATION START ===");
-
     const body = await request.json();
-    const { email } = body;
-
-    console.log("Email received:", email);
-
-    if (!email) {
+    const { email, code } = body;
+    
+    // 1. Validate input
+    if (!email || !code) {
       return NextResponse.json(
-        { message: "Email is required" },
+        { message: "Email and verification code are required" },
         { status: 400 }
       );
     }
 
     const normalizedEmail = email.toLowerCase().trim();
 
+    // 2. Find the user
     const user = await prisma.user.findUnique({
       where: {
         email: normalizedEmail,
       },
     });
-
-    console.log("User found:", user);
-
+    
+    console.log("User code:" + user?.verificationToken)
+    console.log("User code added:" + code)
     if (!user) {
       return NextResponse.json(
         { message: "User not found" },
@@ -36,6 +32,7 @@ export async function POST(request: Request) {
       );
     }
 
+    // 3. Check if already verified
     if (user.emailVerified) {
       return NextResponse.json(
         { message: "Email is already verified" },
@@ -43,54 +40,55 @@ export async function POST(request: Request) {
       );
     }
 
-    const verificationToken = crypto
-      .randomInt(10000, 100000)
-      .toString();
+    // 4. Check if a verification code exists
+    if (!user.verificationToken) {
+      return NextResponse.json(
+        { message: "No verification code found" },
+        { status: 400 }
+      );
+    }
 
-    console.log("Generated token:", verificationToken);
+    // 5. Check if the code has expired
+    if (
+      !user.verificationTokenExpires ||
+      user.verificationTokenExpires < new Date()
+    ) {
+      return NextResponse.json(
+        { message: "Verification code has expired" },
+        { status: 400 }
+      );
+    }
 
-    const verificationTokenExpires = new Date(
-      Date.now() + 10 * 60 * 1000
-    );
+    // 6. Check if the code is correct
+    if (user.verificationToken !== code.toString().trim()) {
+      return NextResponse.json(
+        { message: "Invalid verification code" },
+        { status: 400 }
+      );
+    }
 
-    console.log(
-      "Token expires:",
-      verificationTokenExpires
-    );
-
-    const updateUser = await prisma.user.update({
+    // 7. Verify the email
+    await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
-        verificationToken,
-        verificationTokenExpires,
+        emailVerified: true,
+        verificationToken: null,
+        verificationTokenExpires: null,
       },
     });
-
-    console.log("DATABASE UPDATED:", updateUser);
-
-    const emailResult = await sendVerificationEmail(
-      user.email,
-      user.name,
-      verificationToken
-    );
-
-    console.log("EMAIL RESULT:", emailResult);
-
     return NextResponse.json(
       {
-        message: "Verification code sent",
+        message: "Email verified successfully",
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("SEND VERIFICATION ERROR:", error);
+    console.error("Email verification error:", error);
 
     return NextResponse.json(
-      {
-        message: "Internal Server Error",
-      },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }
