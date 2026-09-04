@@ -12,7 +12,7 @@ export default function VerifyEmailPage() {
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
+  console.log(email)
 useEffect(() => {
   async function sendNewCode() {
     if (!email) return;
@@ -27,7 +27,7 @@ useEffect(() => {
       }),
     });
   }
-
+  console.log(email);
   sendNewCode();
 }, [email]);
 

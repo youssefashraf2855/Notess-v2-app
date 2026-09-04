@@ -48,16 +48,16 @@ export async function POST(request: Request) {
     );
 
     // Save the new code
-    await prisma.user.update({
+  const updateUser=  await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
-        verificationToken,
-        verificationTokenExpires,
+        verificationToken:verificationToken,
+        verificationTokenExpires:verificationTokenExpires,
       },
     });
-
+console.log(updateUser);
     // Send the new code
     await sendVerificationEmail(
       user.email,
