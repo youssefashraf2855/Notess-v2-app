@@ -13,6 +13,24 @@ export default function VerifyEmailPage() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+useEffect(() => {
+  async function sendNewCode() {
+    if (!email) return;
+
+    await fetch("/api/users/send-verification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+  }
+
+  sendNewCode();
+}, [email]);
+
   async function handleVerify(e: React.FormEvent) {
     e.preventDefault();
 
@@ -53,23 +71,7 @@ export default function VerifyEmailPage() {
     } finally {
       setLoading(false);
     }
-    useEffect(() => {
-  async function sendNewCode() {
-    if (!email) return;
-
-    await fetch("/api/users/send-verification", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-      }),
-    });
-  }
-
-  sendNewCode();
-}, [email]);
+    
   }
 
   return (
