@@ -121,7 +121,7 @@ export default function SignInPage() {
           <p className="mt-6 text-center text-sm text-gray-600">
             Miss your password{" "}
             <Link
-              href="/sign-up"
+              href="/reset-password"
               className="font-medium text-black hover:underline"
             >
               Reset password
